@@ -17,7 +17,7 @@ uploaded_file = st.sidebar.file_uploader("Choose a CSV file", type=["csv"])
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
 
-    st.write("### CSV will be truncated to 10000 entries due to compute limitations.")    
+    st.write("### CSV will be truncated to 10000 entries to save compute.")    
     if len(df) > 10000:
         df = df.sample(10000).reset_index(drop=True)
 
