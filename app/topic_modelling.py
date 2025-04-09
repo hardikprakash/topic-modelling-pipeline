@@ -1,20 +1,10 @@
 from bertopic import BERTopic
-from hdbscan import HDBSCAN
 from gensim.models.coherencemodel import CoherenceModel
 from gensim.corpora import Dictionary
 from sentence_transformers import SentenceTransformer
-import itertools
-from umap import UMAP
-import pandas as pd
-from pathlib import Path
-import os
-from wordcloud import WordCloud
-import matplotlib.pyplot as plt
 from gensim.utils import simple_preprocess
 
 def compute_gensim_coherence(tokenized_docs, topic_model, top_n_words=10, coherence='c_v'):
-    from gensim.corpora import Dictionary
-    from gensim.models import CoherenceModel
 
     dictionary = Dictionary(tokenized_docs)
 

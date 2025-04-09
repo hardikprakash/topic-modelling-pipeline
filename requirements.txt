@@ -1,0 +1,8 @@
+streamlit
+pandas
+matplotlib
+seaborn
+bertopic
+sentence-transformers
+spacy
+gensim
