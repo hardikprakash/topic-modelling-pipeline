@@ -5,23 +5,32 @@ from sentence_transformers import SentenceTransformer
 from gensim.utils import simple_preprocess
 
 def compute_gensim_coherence(tokenized_docs, topic_model, top_n_words=10, coherence='c_v'):
-
     dictionary = Dictionary(tokenized_docs)
 
     topic_words_dict = topic_model.get_topics()
-    topics = [
-        [word for word, _ in topic_words_dict[topic_id][:top_n_words]]
-        for topic_id in topic_words_dict
-        if topic_id != -1 and isinstance(topic_words_dict[topic_id], list)
-    ]
-
-    coherence_model = CoherenceModel(
-        topics=topics,
-        texts=tokenized_docs,
-        dictionary=dictionary,
-        coherence=coherence
-    )
-    return coherence_model.get_coherence()
+    
+    if not topic_words_dict:
+        return 0.0
+    
+    try:
+        topics = [
+            [word for word, _ in topic_words_dict[topic_id][:top_n_words]]
+            for topic_id in topic_words_dict
+            if topic_id != -1 and isinstance(topic_words_dict[topic_id], list)
+        ]
+        
+        if not topics:
+            return 0.0
+        
+        coherence_model = CoherenceModel(
+            topics=topics,
+            texts=tokenized_docs,
+            dictionary=dictionary,
+            coherence=coherence
+        )
+        return coherence_model.get_coherence()
+    except (IndexError, KeyError):
+        return 0.0
 
 def model_topics(df, groupby_column):
     topic_models = {}

@@ -46,6 +46,18 @@ if uploaded_file is not None:
         
         st.success("Topic modeling complete!")
 
+        has_topics = False
+        for group in topic_models:
+            topic_info = topic_models[group]["model"].get_topic_info()
+            valid_topics = topic_info[topic_info.Topic != -1]
+            if len(valid_topics) > 0:
+                has_topics = True
+                break
+                
+        if not has_topics:
+            st.warning("⚠️ No topics could be generated from the provided data. Try a different dataset with more text content or select a different text column.")
+            st.stop()
+
         if groupby_column == "None":
             st.header(f"📊 Results for All Data")
         
@@ -73,24 +85,30 @@ if uploaded_file is not None:
             topic_info = topic_models[group]["model"].get_topic_info()
             topic_info = topic_info[topic_info.Topic != -1]
             
+            if len(topic_info) == 0:
+                st.warning(f"No topics could be generated for {group}.")
+                continue
+            
             st.write("### Top Topics")
             st.dataframe(topic_info[["Topic", "Name", "Count"]].reset_index(drop=True))
             
-            # Bar Chart.
-            top_topics = topic_info.sort_values(by="Count", ascending=False).head(5)
-            
-            fig, ax = plt.subplots(figsize=(10, 5))
-            sns.barplot(data=top_topics, x="Count", y="Name", palette="viridis", ax=ax)
-            ax.set_title(f"Top 5 Topics for {group}")
-            ax.set_xlabel("Number of Documents")
-            ax.set_ylabel("Topic")
-            plt.tight_layout()
-            
-            st.pyplot(fig)
-            
-            # Explore dropdown.
-            with st.expander("Explore Topic Details"):
-                for _, row in topic_info.iterrows():
-                    st.write(f"**Topic {row['Topic']:>2}:** {row['Name']} (Count: {row['Count']})")
+            # Only display visualizations if we have topics
+            if len(topic_info) > 0:
+                # Bar Chart
+                top_topics = topic_info.sort_values(by="Count", ascending=False).head(5)
+                
+                fig, ax = plt.subplots(figsize=(10, 5))
+                sns.barplot(data=top_topics, x="Count", y="Name", palette="viridis", ax=ax)
+                ax.set_title(f"Top 5 Topics for {group}")
+                ax.set_xlabel("Number of Documents")
+                ax.set_ylabel("Topic")
+                plt.tight_layout()
+                
+                st.pyplot(fig)
+                
+                # Explore dropdown
+                with st.expander("Explore Topic Details"):
+                    for _, row in topic_info.iterrows():
+                        st.write(f"**Topic {row['Topic']:>2}:** {row['Name']} (Count: {row['Count']})")
             
             st.divider()
