@@ -5,6 +5,9 @@ from topic_modelling import model_topics
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+import os
+os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
+
 st.set_page_config(page_title="Topic Modelling Pipeline", layout="wide")
 st.title("Topic Modelling with BERTopic")
 
