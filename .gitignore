@@ -4,3 +4,4 @@ venv/
 app/__pycache__/
 *.pyc
 *.ipynb_checkpoints/
+notebooks/
