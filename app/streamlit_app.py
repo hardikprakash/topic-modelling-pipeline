@@ -1,5 +1,5 @@
 import torch
-torch.classes.path = []
+torch.classes.__path__ = []
 
 import streamlit as st
 import pandas as pd
