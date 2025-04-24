@@ -1,3 +1,6 @@
+import torch
+torch.classes.path = []
+
 import streamlit as st
 import pandas as pd
 from preprocessing import preprocess_reviews
