@@ -67,12 +67,12 @@ if uploaded_file is not None:
         else:
             st.header(f"📊 Results Grouped by {groupby_column}")
             # Navigation selectbox.
-            if len(topic_models) > 1:
-                group_selector = st.selectbox(
-                    "Jump to group:", 
-                    options=list(topic_models.keys())
-                )
-                st.markdown(f"[Jump to {group_selector}](#{group_selector.replace(' ', '-').lower()})")
+            # if len(topic_models) > 1:
+            #     group_selector = st.selectbox(
+            #         "Jump to group:", 
+            #         options=list(topic_models.keys())
+            #     )
+            #     st.markdown(f"[Jump to {group_selector}](#{group_selector.replace(' ', '-').lower()})")
 
         for group in topic_models:
             
