@@ -2,6 +2,8 @@
 
 A streamlined application for extracting insights from airline customer reviews through advanced topic modelling techniques.
 
+**Hosted at:** https://topic-modelling-pipeline.streamlit.app
+
 ## Overview
 
 This project implements a natural language processing pipeline that identifies key themes and topics in text data using BERTopic, an advanced topic modeling algorithm. The web application provides an intuitive interface for uploading review data and generating insights that reveal underlying patterns and themes.
